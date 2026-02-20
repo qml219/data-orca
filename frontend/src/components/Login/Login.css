@@ -1,0 +1,110 @@
+/* Page wrapper */
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2.5rem 2.25rem;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow:
+    0px 10px 25px rgba(15, 23, 42, 0.08),
+    0px 4px 10px rgba(15, 23, 42, 0.05);
+}
+
+/* Title */
+.login-form h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+/* Inputs */
+.input-field {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Error message */
+.error-message {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.submit-btn:hover {
+  background-color: #1e40af;
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+}
+
+.submit-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Brand section */
+.login-brand {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.login-brand h1 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo */
+.logo {
+  height: 34px;
+  padding: 15px;
+  width: auto;
+  opacity: 0.9;
+}

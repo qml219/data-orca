@@ -1,0 +1,4 @@
+airflow-docker/**
+.vscode/**
+redhat.java
+aws/**

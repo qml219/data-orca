@@ -1,0 +1,12 @@
+.home-page h1 {
+    color: rgb(55, 55, 177);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.know-more {
+    color:  indianred;
+    border-radius: 8px;
+    border: 1px solid;
+}
