@@ -26,6 +26,27 @@ public class CsvParser {
         this.maxRows = maxRows;
     }
 
+    public Map<String, ColumnInference> mapColumnTypes(Reader reader) throws IOException {
+        Map<String, ColumnInference> res = new HashMap<String, ColumnInference>();
+        CSVParser parser = CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).setTrim(true).build()
+                .parse(reader);
+
+        for (String colName : parser.getHeaderMap().keySet()) {
+            res.put(colName, new ColumnInference());
+        }
+
+        int count = 0;
+        for (CSVRecord record : parser) {
+            if (count++ >= maxRows)
+                break;
+            for (String colName : res.keySet()) {
+                String rawValue = record.get(colName);
+                res.get(colName).observe(rawValue);
+            }
+        }
+        return res;
+    }
+
     public Map<String, ColumnInference> mapColumnTypes(Path csvPath) throws IOException {
 
         Map<String, ColumnInference> res = new HashMap<String, ColumnInference>();

@@ -29,6 +29,10 @@ public class UploadSession {
     // @UuidGenerator
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UploadType type;
+
     @Column(nullable = false)
     private UUID workspaceId;
 
@@ -45,6 +49,12 @@ public class UploadSession {
 
     @Column(nullable = false)
     private Instant createdAt;
+
+    @Column
+    private Instant scannedAt;
+
+    @Column(columnDefinition = "jsonb")
+    private String scanResultJson;
 
     private Instant completedAt;
 }

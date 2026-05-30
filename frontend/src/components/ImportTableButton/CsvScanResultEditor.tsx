@@ -98,6 +98,7 @@ export default function CsvScanResultEditor({
                         onRemove={handleRemoveColumn}
                     />
                 ))
+                // <div>Column count: {tableColumns.length}</div>
             }
 
             <Button variant="outlined" onClick={handleClickAddColumn} size="small">Add Column</Button>

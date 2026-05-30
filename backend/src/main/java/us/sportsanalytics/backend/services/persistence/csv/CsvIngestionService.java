@@ -1,7 +1,11 @@
 package us.sportsanalytics.backend.services.persistence.csv;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,23 +28,27 @@ public class CsvIngestionService {
     /**
      * Save uploaded file to a temp path, infer column types, then delete.
      */
-    public CsvScanResponse scanCsv(MultipartFile file, String tableNameOverride) throws IOException {
-        if (file == null || file.isEmpty()) {
+    public CsvScanResponse scanCsv(InputStream fileContentByteStream, String tableName) throws IOException {
+        if (fileContentByteStream == null) {
             throw new IllegalArgumentException("CSV file is required");
         }
 
         // Copy file stream into temp file
-        Path tmp = Files.createTempFile("upload-", ".csv");
-        try (InputStream in = file.getInputStream()) {
-            Files.copy(in, tmp, StandardCopyOption.REPLACE_EXISTING);
-        }
+        // Path tmp = Files.createTempFile("upload-", ".csv");
+        // try (InputStream in = file.getInputStream()) {
+        // Files.copy(in, tmp, StandardCopyOption.REPLACE_EXISTING);
+        // }
 
-        try {
-            Map<String, ColumnInference> inferred = csvParser.mapColumnTypes(tmp);
+        try (
+                Reader reader = new InputStreamReader(fileContentByteStream);
+                BufferedReader br = new BufferedReader(reader);) {
+            Map<String, ColumnInference> inferred = csvParser.mapColumnTypes(br);
 
-            String suggestedTableName = (tableNameOverride != null && !tableNameOverride.isBlank())
-                    ? tableNameOverride
-                    : stripExtension(Objects.requireNonNullElse(file.getOriginalFilename(), "uploaded_table"));
+            // String suggestedTableName = (tableNameOverride != null &&
+            // !tableNameOverride.isBlank())
+            // ? tableNameOverride
+            // : stripExtension(Objects.requireNonNullElse(file.getOriginalFilename(),
+            // "uploaded_table"));
 
             List<CsvScanResponse.CsvColumnProposal> cols = inferred.entrySet().stream()
                     .map(e -> new CsvScanResponse.CsvColumnProposal(
@@ -49,9 +57,7 @@ public class CsvIngestionService {
                             e.getValue().getNullable()))
                     .toList();
 
-            return new CsvScanResponse(suggestedTableName, cols);
-        } finally {
-            Files.deleteIfExists(tmp);
+            return new CsvScanResponse(tableName, cols);
         }
     }
 
@@ -108,7 +114,7 @@ public class CsvIngestionService {
         return req;
     }
 
-    private static String stripExtension(String filename) {
+    public static String stripExtension(String filename) {
         int dot = filename.lastIndexOf('.');
         return (dot > 0) ? filename.substring(0, dot) : filename;
     }

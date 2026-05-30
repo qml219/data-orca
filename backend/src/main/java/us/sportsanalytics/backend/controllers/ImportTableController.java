@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import us.sportsanalytics.backend.models.domain.TableDefinition;
 import us.sportsanalytics.backend.models.dto.table.CreateTableRequest;
+import us.sportsanalytics.backend.models.dto.table.ScanRequest;
 import us.sportsanalytics.backend.models.dto.table.csv.CsvConfirmCreateTableRequest;
 import us.sportsanalytics.backend.models.dto.table.csv.CsvInitImportResponse;
 import us.sportsanalytics.backend.models.dto.table.csv.CsvScanResponse;
@@ -34,11 +35,9 @@ public class ImportTableController {
         return importService.initiate(request.getOriginalFileName());
     }
 
-    @PostMapping(value = "/scan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CsvScanResponse scan(
-            @RequestPart("file") MultipartFile file,
-            @RequestParam(value = "tableName", required = false) String tableName) throws IOException {
-        return csvIngestionService.scanCsv(file, tableName);
+    @PostMapping(value = "/scan", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CsvScanResponse scan(@RequestBody ScanRequest request) throws IOException {
+        return importService.scanFromUploadSession(request.uploadSessionId(), request.tableName());
     }
 
     @PostMapping(value = "/confirm", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
